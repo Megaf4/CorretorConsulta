@@ -37,6 +37,10 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "EXPO_PUBLIC_SUPABASE_URL": "https://kjqqqxvnogasmistxbor.supabase.co",
+      "EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_0KLxV3HLRMIUvkTzcPFNGA_5kS2QpOc"
     }
   }
 }
