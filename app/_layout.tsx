@@ -1,56 +1,52 @@
 import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { ControladorSplash } from '@/components/ControladorSplash';
+import { ProvedorSessao, useSessao } from '@/lib/sessao';
 
 export {
-  // Catch any errors thrown by the Layout component.
+  // Deixa o Expo Router capturar erros na árvore de navegação.
   ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const [loaded, error] = useFonts({
+export default function LayoutRaiz() {
+  const [fontesCarregadas, erroFontes] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+    if (erroFontes) throw erroFontes;
+  }, [erroFontes]);
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  if (!fontesCarregadas) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <ProvedorSessao>
+      <ControladorSplash />
+      <Navegacao />
+    </ProvedorSessao>
+  );
+}
+
+/**
+ * Guarda de rotas.
+ * Com sessão, só o grupo (app) existe. Sem sessão, só a tela de login.
+ * Ninguém chega numa tela protegida por deep link.
+ */
+function Navegacao() {
+  const { sessao } = useSessao();
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!!sessao}>
+        <Stack.Screen name="(app)" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!sessao}>
+        <Stack.Screen name="entrar" />
+      </Stack.Protected>
+    </Stack>
   );
 }

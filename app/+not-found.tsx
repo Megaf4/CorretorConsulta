@@ -1,40 +1,31 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Text, View } from '@/components/Themed';
+import { Cores, Espaco, Fonte } from '@/constants/theme';
 
-export default function NotFoundScreen() {
+export default function TelaNaoEncontrada() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
-
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
+      <Stack.Screen options={{ title: 'Ops!' }} />
+      <View style={estilos.container}>
+        <Text style={estilos.titulo}>Esta tela não existe.</Text>
+        <Link href="/" style={estilos.link}>
+          <Text style={estilos.linkTexto}>Voltar para o início</Text>
         </Link>
       </View>
     </>
   );
 }
 
-const styles = StyleSheet.create({
+const estilos = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: Espaco.xl,
+    backgroundColor: Cores.fundo,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
+  titulo: { fontSize: Fonte.grande, fontWeight: '700', color: Cores.texto },
+  link: { marginTop: Espaco.lg, paddingVertical: Espaco.lg },
+  linkTexto: { fontSize: Fonte.corpo, color: Cores.petroleo, fontWeight: '600' },
 });

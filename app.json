@@ -33,14 +33,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O Corretor Consulta usa suas fotos para você definir a imagem do perfil."
+        }
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "EXPO_PUBLIC_SUPABASE_URL": "https://kjqqqxvnogasmistxbor.supabase.co",
-      "EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_0KLxV3HLRMIUvkTzcPFNGA_5kS2QpOc"
     }
   }
 }
